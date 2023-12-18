@@ -10,6 +10,7 @@ from concurrent import futures
 
 # Здесь укажите URL основного сервиса, где находится ваш эндпойнт
 CALLBACK_URL = "http://127.0.0.1:8888/SatellitesAsyncStatus/"
+passkey = "password"
 
 executor = futures.ThreadPoolExecutor(max_workers=1)
 
@@ -34,7 +35,7 @@ def async_status_callback(task):
 
     nurl = CALLBACK_URL + str(result["satellite_id"])
     headers = {'Content-Type': 'application/json'}
-    answer = {"percentage": result["percentage"]}
+    answer = {"percentage": result["percentage"], "passkey": passkey}
 
 
 
@@ -52,7 +53,7 @@ def start_async_update(request):
     print(satellite_id)
 
     if satellite_id:
-        for i in range(10,110,10):
+        for i in range(10,101,10):
             task = executor.submit(get_random_async_status, satellite_id, i)
             task.add_done_callback(async_status_callback)
         return Response({"message": "Update started"}, status=status.HTTP_202_ACCEPTED)
