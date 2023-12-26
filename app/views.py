@@ -9,14 +9,14 @@ import requests
 from concurrent import futures
 
 # Здесь укажите URL основного сервиса, где находится ваш эндпойнт
-CALLBACK_URL = "http://127.0.0.1:8888/SatellitesAsyncStatus/"
+CALLBACK_URL = "http://localhost:8888/SatellitesAsyncStatus/"
 passkey = "password"
 
 executor = futures.ThreadPoolExecutor(max_workers=1)
 
 #
 def get_random_async_status(satellite_id, i):
-    time.sleep(1)
+    time.sleep(2)
     return {
         "satellite_id": satellite_id,
         "percentage": str(i) + "%",
@@ -56,5 +56,5 @@ def start_async_update(request):
         for i in range(10,101,10):
             task = executor.submit(get_random_async_status, satellite_id, i)
             task.add_done_callback(async_status_callback)
-        return Response({"message": "Update started"}, status=status.HTTP_202_ACCEPTED)
+        return Response({"message": "Update started"}, status=status.HTTP_200_OK)
     return Response({"error": "satellite_id is missing"}, status=status.HTTP_400_BAD_REQUEST)
