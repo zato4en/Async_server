@@ -16,7 +16,7 @@ executor = futures.ThreadPoolExecutor(max_workers=1)
 
 #
 def get_random_async_status(satellite_id, i):
-    time.sleep(2)
+    time.sleep(4)
     return {
         "satellite_id": satellite_id,
         "percentage": str(i) + "%",
